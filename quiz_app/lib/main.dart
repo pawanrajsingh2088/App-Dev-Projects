@@ -14,6 +14,15 @@ class Quizzler extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          title: Row(
+            children: [
+              Icon(Icons.quiz_outlined,color: Colors.white,),
+              Text('  Quiz App',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+            ],
+          ),
+          backgroundColor:Colors.blueGrey[800] ,
+        ),
         backgroundColor: Colors.blueGrey[900],
         body: const SafeArea(
           child: Padding(
@@ -59,6 +68,8 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
+        Text('Options:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700),),
+        SizedBox(height: 10,),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -86,6 +97,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         const SizedBox(height: 20),
+
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -136,6 +148,7 @@ class _QuizPageState extends State<QuizPage> {
         quizBrain.reset();
         scoreKeeper = [];
       } else {
+
         if (userPickedAnswer == correctAnswer) {
           scoreKeeper.add(const Icon(
             Icons.check,
