@@ -67,4 +67,14 @@ class QuizBrain {
   void reset() {
     _questionNumber = 0;
   }
+
+  // Method to get the total number of questions
+  int getTotalQuestions() {
+    return _questionBank.length;
+  }
+
+  // Method to get the current question index
+  int getCurrentQuestionIndex() {
+    return _questionNumber;
+  }
 }

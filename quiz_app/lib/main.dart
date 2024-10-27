@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:percent_indicator/percent_indicator.dart'; // For progress bar
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -17,11 +18,15 @@ class Quizzler extends StatelessWidget {
         appBar: AppBar(
           title: Row(
             children: [
-              Icon(Icons.quiz_outlined,color: Colors.white,),
-              Text('  Quiz App',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+              Icon(Icons.quiz_outlined, color: Colors.white),
+              Text(
+                '  Quiz App',
+                style: TextStyle(
+                    color: Colors.white, fontWeight: FontWeight.bold),
+              ),
             ],
           ),
-          backgroundColor:Colors.blueGrey[800] ,
+          backgroundColor: Colors.blueGrey[800],
         ),
         backgroundColor: Colors.blueGrey[900],
         body: const SafeArea(
@@ -44,13 +49,41 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> scoreKeeper = [];
+  int totalQuestions = quizBrain.getTotalQuestions();
+  int correctAnswers = 0;
 
   @override
   Widget build(BuildContext context) {
+    double progress = quizBrain.getCurrentQuestionIndex() / totalQuestions;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        // Progress Bar
+        LinearPercentIndicator(
+          lineHeight: 8.0,
+          percent: progress,
+          backgroundColor: Colors.grey[700],
+          progressColor: Colors.green,
+          animation: true,
+          animationDuration: 500,
+        ),
+        const SizedBox(height: 10),
+
+        // Question Counter
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            'Question ${quizBrain.getCurrentQuestionIndex() + 1}/$totalQuestions',
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 18.0,
+            ),
+          ),
+        ),
+
         Expanded(
           flex: 5,
           child: Padding(
@@ -68,8 +101,13 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        Text('Options:',style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700),),
-        SizedBox(height: 10,),
+        Text(
+          'Options:',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        const SizedBox(height: 10),
+
+        // True Button
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -98,6 +136,7 @@ class _QuizPageState extends State<QuizPage> {
         ),
         const SizedBox(height: 20),
 
+        // False Button
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -124,11 +163,26 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
+
         Padding(
           padding: const EdgeInsets.all(15.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: scoreKeeper,
+          ),
+        ),
+
+        // Score Display
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Text(
+            'Correct Answers: $correctAnswers/$totalQuestions',
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
           ),
         ),
       ],
@@ -143,13 +197,14 @@ class _QuizPageState extends State<QuizPage> {
         Alert(
           context: context,
           title: 'Finished!',
-          desc: 'You\'ve reached the end of the quiz.',
+          desc: 'You\'ve reached the end of the quiz.\nYour Score: $correctAnswers/$totalQuestions',
         ).show();
         quizBrain.reset();
         scoreKeeper = [];
+        correctAnswers = 0; // Reset score
       } else {
-
         if (userPickedAnswer == correctAnswer) {
+          correctAnswers++;
           scoreKeeper.add(const Icon(
             Icons.check,
             color: Colors.green,
