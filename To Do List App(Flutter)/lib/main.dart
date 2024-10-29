@@ -22,7 +22,6 @@ class ToDoListScreen extends StatefulWidget {
 
 class _ToDoListScreenState extends State<ToDoListScreen> {
   List<String> tasks = [];
-
   TextEditingController taskController = TextEditingController();
 
   void addTask(String task) {
@@ -41,13 +40,15 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Colors.white, // Set the background color to white
       appBar: AppBar(
-        backgroundColor: Colors.redAccent,
+        backgroundColor: Colors.black, // Set the AppBar color to black
         title: Text(
           'To-Do List App',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center, // Center the title text
         ),
+        centerTitle: true, // Center the title
       ),
       body: Padding(
         padding: EdgeInsets.all(20.0),
@@ -67,10 +68,10 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                   child: TextField(
                     controller: taskController,
                     decoration: InputDecoration(
-                      labelStyle: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),
+                      labelStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20), // Change label color to black
                       labelText: 'Enter a task',
                     ),
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: Colors.black), // Change text color to black
                     onSubmitted: (value) {
                       addTask(value);
                     },
@@ -83,13 +84,13 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
                   ),
                   child: Text(
                     'Add Task',
-                    style: TextStyle(fontSize: 14,color: Colors.black),
+                    style: TextStyle(fontSize: 14, color: Colors.black),
                   ),
                 ),
                 SizedBox(width: 5,)
@@ -115,7 +116,7 @@ class _ToDoListScreenState extends State<ToDoListScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                           trailing: IconButton(
-                            icon: Icon(Icons.delete,color: Colors.red[200],),
+                            icon: Icon(Icons.delete, color: Colors.red[200]),
                             onPressed: () {
                               removeTask(index);
                             },

@@ -194,6 +194,7 @@ class _QuizPageState extends State<QuizPage> {
 
     setState(() {
       if (quizBrain.isFinished()) {
+        // End of quiz alert
         Alert(
           context: context,
           title: 'Finished!',
@@ -203,6 +204,7 @@ class _QuizPageState extends State<QuizPage> {
         scoreKeeper = [];
         correctAnswers = 0; // Reset score
       } else {
+        // Show feedback after each answer
         if (userPickedAnswer == correctAnswer) {
           correctAnswers++;
           scoreKeeper.add(const Icon(
@@ -210,12 +212,24 @@ class _QuizPageState extends State<QuizPage> {
             color: Colors.green,
             size: 30.0,
           ));
+          Alert(
+            context: context,
+            title: "Correct!",
+            desc: "Good job!",
+            type: AlertType.success,
+          ).show();
         } else {
           scoreKeeper.add(const Icon(
             Icons.close,
             color: Colors.red,
             size: 30.0,
           ));
+          Alert(
+            context: context,
+            title: "Wrong!",
+            desc: "Better luck next time.",
+            type: AlertType.error,
+          ).show();
         }
         quizBrain.nextQuestion();
       }
