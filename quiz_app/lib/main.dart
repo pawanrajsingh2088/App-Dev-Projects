@@ -194,15 +194,37 @@ class _QuizPageState extends State<QuizPage> {
 
     setState(() {
       if (quizBrain.isFinished()) {
-        // End of quiz alert
+        // End of quiz alert with Play Again option
         Alert(
           context: context,
           title: 'Finished!',
           desc: 'You\'ve reached the end of the quiz.\nYour Score: $correctAnswers/$totalQuestions',
+          buttons: [
+            DialogButton(
+              child: const Text(
+                'Play Again',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                setState(() {
+                  quizBrain.reset();
+                  scoreKeeper = [];
+                  correctAnswers = 0; // Reset score
+                  Navigator.pop(context); // Close alert
+                });
+              },
+              color: Colors.blue,
+            ),
+            DialogButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () => Navigator.pop(context), // Close alert
+              color: Colors.red,
+            ),
+          ],
         ).show();
-        quizBrain.reset();
-        scoreKeeper = [];
-        correctAnswers = 0; // Reset score
       } else {
         // Show feedback after each answer
         if (userPickedAnswer == correctAnswer) {
